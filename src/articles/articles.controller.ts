@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { ArticleEntity } from './entities/article.entity';
@@ -38,22 +39,22 @@ export class ArticlesController {
 
   @Get(':id')
   @ApiOkResponse({ type: ArticleEntity })
-  async findOne(@Param('id') id: string) {
-    return await this.articlesService.findOne(+id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return await this.articlesService.findOne(id);
   }
 
   @Patch(':id')
   @ApiOkResponse({ type: ArticleEntity })
   async update(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body() updateArticleDto: UpdateArticleDto,
   ) {
-    return await this.articlesService.update(+id, updateArticleDto);
+    return await this.articlesService.update(id, updateArticleDto);
   }
 
   @Delete(':id')
   @ApiOkResponse({ type: ArticleEntity })
-  async remove(@Param('id') id: string) {
-    return await this.articlesService.remove(+id);
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    return await this.articlesService.remove(id);
   }
 }
