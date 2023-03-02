@@ -5,10 +5,10 @@ import { UpdateArticleDto } from './dto/update-article.dto';
 
 @Injectable()
 export class ArticlesService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
-  async create(createArticleDto: CreateArticleDto) {
-    return await this.prisma.article.create({ data: createArticleDto });
+  async create(params: CreateArticleDto) {
+    return await this.prisma.article.create({ data: params });
   }
 
   async findAll() {
@@ -23,10 +23,16 @@ export class ArticlesService {
     return await this.prisma.article.findUnique({ where: { id } });
   }
 
-  async update(id: number, updateArticleDto: UpdateArticleDto) {
+  async update(id: number, params: UpdateArticleDto) {
+    const { title, description, body, published } = params;
     return await this.prisma.article.update({
       where: { id },
-      data: updateArticleDto,
+      data: {
+        title,
+        description,
+        body,
+        published
+      },
     });
   }
 
